@@ -3443,7 +3443,8 @@ class Map extends CI_Controller {
         $data['app_id'] = $selected_form['app_id'];
         $filter_attribute = array();
         if ($selected_form['filter'] != '') {
-            $filter_rec = array_filter(array_map('trim', explode(',', $selected_form['filter'])));
+            $filter_rec = array_filter(array_map('trim', 
+                                                 explode(',', $selected_form['filter'])));
             foreach ($filter_rec as $key => $value) {
                 array_push($filter_attribute, $value);
             }
@@ -3477,7 +3478,8 @@ class Map extends CI_Controller {
                             $exist_alpha[$first_char] = '1';
                             $pin_name = $first_char . '1';
                         }
-                        $pin_exist_for_cat = array_merge($pin_exist_for_cat, array($valueforarray => $pin_name));
+                        $pin_exist_for_cat = array_merge($pin_exist_for_cat, 
+                                                         array($valueforarray => $pin_name));
                     } else {
                         if (array_key_exists($valueforarray, $pin_exist_for_cat)) {
                             $pin_name = $pin_exist_for_cat[$valueforarray];
@@ -3504,7 +3506,8 @@ class Map extends CI_Controller {
                 $record_array_final[] = $record_array;
             }
         }
-        $data['locations'] = $this->getMapHtmlInfoSingle($record_array_final, $heading_array, $filter_attribute);
+        $data['locations'] = $this->getMapHtmlInfoSingle($record_array_final, 
+                                                         $heading_array, $filter_attribute);
         $data['headings'] = $heading_array;
         $data['form'] = $record_array_final;
         $data['form_for_filter'] = $record_array_final;
@@ -3530,7 +3533,8 @@ class Map extends CI_Controller {
         );
         $this->db->where('id', $form_id);
         $this->db->update('form', $dataform);
-        $this->session->set_flashdata('validate', array('message' => 'Form filter updated successfully.', 'type' => 'success'));
+        $this->session->set_flashdata('validate',
+                                      array('message' => 'Form filter updated successfully.', 'type' => 'success'));
         if ($this->input->post('redirect_to') == 'form_result') {
             redirect(base_url() . 'application-results/' . $app_id);
         } else if ($this->input->post('redirect_to') == 'mapview') {
@@ -3598,7 +3602,8 @@ class Map extends CI_Controller {
         $forms_list = array();
         $all_forms = $this->form_model->get_form_by_app($app_id);
         foreach ($all_forms as $forms) {
-            $forms_list[] = array('form_id' => $forms['form_id'], 'form_name' => $forms['form_name']);
+            $forms_list[] = array('form_id' => $forms['form_id'], 
+                                  'form_name' => $forms['form_name']);
         }
 
         /** multi form ends herer..... */
@@ -3655,7 +3660,8 @@ class Map extends CI_Controller {
         $possible_filters = explode(',', $filter_attribute['possible_filters']);
         if ($possible_filters) {
             foreach ($possible_filters as $category) {
-                $category_final = array_merge($category_final, array($category => str_replace('_', ' ', $category)));
+                $category_final = array_merge($category_final, 
+                                              array($category => str_replace('_', ' ', $category)));
             }
         }
         $filter = $filter_attribute['filter'];
@@ -3666,7 +3672,8 @@ class Map extends CI_Controller {
             }
         }
         if ($category_final || $sub_final) {
-            $final_json = array('category' => $category_final, 'sub_category' => $sub_final, 'selected_cat' => $filter);
+            $final_json = array('category' => $category_final, 
+                                'sub_category' => $sub_final, 'selected_cat' => $filter);
             header('Content-Type: application/x-json; charset=utf-8');
             echo json_encode($final_json);
         } else {
